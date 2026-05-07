@@ -216,23 +216,23 @@ uv pip install -e ".[dev]"
 ### Run tests
 
 ```bash
-pytest
+uv run pytest
 ```
 
 ### Lint and format code
 
 ```bash
 # Format code with ruff
-ruff format src/ tests/
+uv run ruff format src/ tests/
 
 # Check formatting without modifying files
-ruff format --check src/ tests/
+uv run ruff format --check src/ tests/
 
 # Lint and auto-fix with ruff
-ruff check --fix src/ tests/
+uv run ruff check --fix src/ tests/
 
 # Check without auto-fixing
-ruff check src/ tests/
+uv run ruff check src/ tests/
 ```
 
 ## License
