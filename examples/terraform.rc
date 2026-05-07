@@ -1,0 +1,14 @@
+# Example Terraform CLI configuration to use local registry stub
+# Place this in ~/.terraformrc (Linux/Mac) or %APPDATA%/terraform.rc (Windows)
+
+provider_installation {
+  # Exclude all providers from public registry
+  direct {
+    exclude = ["registry.terraform.io/*/*"]
+  }
+
+  # Use local registry stub as network mirror
+  network_mirror {
+    url = "http://localhost:8080/"
+  }
+}

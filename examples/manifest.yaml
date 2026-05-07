@@ -1,0 +1,51 @@
+# Example manifest for caching Terraform providers
+registry: registry.terraform.io
+
+providers:
+  # AWS Provider - specific version range with limit
+  - namespace: hashicorp
+    type: aws
+    version_constraints:
+      - ">= 5.0.0, < 5.5.0"  # Cache versions 5.0.0 through 5.4.x
+    platforms:
+      - os: linux
+        arch: amd64
+      - os: darwin
+        arch: arm64
+      - os: darwin
+        arch: amd64
+    max_versions: 5  # Limit to 5 newest matching versions
+    include_prerelease: false
+
+  # Random Provider - latest version only, all platforms
+  - namespace: hashicorp
+    type: random
+    version_constraints:
+      - "latest"
+    platforms: ["*"]  # All available platforms
+
+  # Google Provider - pessimistic constraint
+  - namespace: hashicorp
+    type: google
+    version_constraints:
+      - "~> 5.10.0"  # >= 5.10.0, < 5.11.0
+    platforms:
+      - os: linux
+        arch: amd64
+
+  # Null Provider - all versions with safety limit
+  - namespace: hashicorp
+    type: "null"  # Quote to prevent YAML from treating as None
+    version_constraints:
+      - "*"
+    platforms:
+      - os: linux
+        arch: amd64
+      - os: darwin
+        arch: arm64
+    max_versions: 20  # Safety limit even with wildcard
+
+# Global cache options
+cache_options:
+  download_packages: true   # Download provider .zip files, checksums, and signatures
+  verify_signatures: true   # Verify GPG signatures (requires GPG)

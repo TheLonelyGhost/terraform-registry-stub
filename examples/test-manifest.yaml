@@ -1,0 +1,17 @@
+# Minimal test manifest
+registry: registry.terraform.io
+
+providers:
+  # Just test with null provider - it's small and fast
+  - namespace: hashicorp
+    type: "null"  # Quote to prevent YAML from treating as None
+    version_constraints:
+      - "latest"
+    platforms:
+      - os: linux
+        arch: amd64
+    include_prerelease: false
+
+cache_options:
+  download_packages: true
+  verify_signatures: true
