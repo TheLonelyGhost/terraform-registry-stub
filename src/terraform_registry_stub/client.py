@@ -38,7 +38,9 @@ class AsyncRegistryClient:
         """
         url = f"{self._get_base_api_url()}/{namespace}/{type_}/versions"
 
-        async with httpx.AsyncClient(timeout=self.timeout, limits=self.limits) as client:
+        async with httpx.AsyncClient(
+            timeout=self.timeout, limits=self.limits, follow_redirects=True
+        ) as client:
             response = await client.get(url)
             response.raise_for_status()
             return response.json()
@@ -77,7 +79,7 @@ class AsyncRegistryClient:
             output_path: Path to save the downloaded file
         """
         async with (
-            httpx.AsyncClient(timeout=self.timeout) as client,
+            httpx.AsyncClient(timeout=self.timeout, follow_redirects=True) as client,
             client.stream("GET", url) as response,
         ):
             response.raise_for_status()
