@@ -59,6 +59,14 @@ addopts = [
     "--cov-report=term-missing",
     "--cov-report=html",
 ]
+# Filter false positive warnings from pytest-asyncio's interaction with stdlib/third-party code.
+# These warnings occur when pytest-asyncio's automatic mock patching creates AsyncMock objects
+# that are then introspected by Python's stdlib (yaml, argparse, ast, abc) and third-party
+# libraries (FastAPI) during test execution. The coroutines are never meant to be awaited as
+# they're just artifacts of the mocking mechanism inspecting our test doubles.
+filterwarnings = [
+    "ignore:coroutine '.*AsyncMockMixin._execute_mock_call' was never awaited:RuntimeWarning",
+]
 
 [tool.ruff]
 line-length = 100
