@@ -6,7 +6,7 @@ providers:
   - namespace: hashicorp
     type: aws
     version_constraints:
-      - ">= 5.0.0, < 5.5.0"  # Cache versions 5.0.0 through 5.4.x
+      - ">=5.0.0,<5.5.0"  # Cache versions 5.0.0 through 5.4.x
     platforms:
       - os: linux
         arch: amd64
@@ -24,13 +24,26 @@ providers:
       - "latest"
     platforms: ["*"]  # All available platforms
 
-  # Google Provider - pessimistic constraint
+  # Google Provider - version range constraint
   - namespace: hashicorp
     type: google
     version_constraints:
-      - "~> 5.10.0"  # >= 5.10.0, < 5.11.0
+      - ">=5.10.0,<5.11.0"  # >= 5.10.0, < 5.11.0
     platforms:
       - os: linux
+        arch: amd64
+
+  # Non-hashi provider drawing from github.com release assets
+  - namespace: ansible
+    type: aap
+    version_constraints:
+      - "latest"
+    platforms:
+      - os: linux
+        arch: amd64
+      - os: linux
+        arch: arm64
+      - os: darwin
         arch: amd64
 
   # Null Provider - all versions with safety limit
@@ -41,8 +54,8 @@ providers:
     platforms:
       - os: linux
         arch: amd64
-      - os: darwin
-        arch: arm64
+      - os: windows
+        arch: amd64
     max_versions: 20  # Safety limit even with wildcard
 
 # Global cache options
