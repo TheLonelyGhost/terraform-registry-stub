@@ -40,7 +40,6 @@ dev = [
 
 [project.scripts]
 terraform-registry-stub = "terraform_registry_stub.__main__:main"
-trs = "terraform_registry_stub.__main__:main"
 
 [build-system]
 requires = ["hatchling"]

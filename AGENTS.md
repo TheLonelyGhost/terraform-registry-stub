@@ -30,7 +30,7 @@ uv run ruff format src/ tests/
 
 ## Application Commands
 
-Both invocation styles work, when venv is activated:
+Both invocation styles work when venv is activated:
 
 ```bash
 # Via installed script
@@ -63,6 +63,7 @@ src/terraform_registry_stub/
 3. **Async everywhere**: Uses httpx for concurrent downloads, FastAPI for server
 4. **OR logic**: Multiple `version_constraints` entries are combined with OR, not AND
 5. **pytest config**: `filterwarnings` in `pyproject.toml` suppresses false-positive AsyncMock warnings
+6. **Lockfile**: `uv.lock` is gitignored (unconventional but intentional for this project)
 
 ## Testing
 
