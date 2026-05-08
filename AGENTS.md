@@ -13,6 +13,10 @@ uv pip install -e ".[dev]"
 # Run tests (required before commits)
 uv run pytest
 
+# Run single test file or function
+uv run pytest tests/test_models.py
+uv run pytest tests/test_models.py::test_provider_model
+
 # Lint (check only)
 uv run ruff check src/ tests/
 
@@ -24,6 +28,9 @@ uv run ruff format --check src/ tests/
 
 # Format (apply)
 uv run ruff format src/ tests/
+
+# Build distribution (used in CI)
+uv build
 ```
 
 **Required order**: Always run `uv run pytest` and `uv run ruff check src/ tests/` before committing.
