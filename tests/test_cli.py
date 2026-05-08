@@ -1,8 +1,6 @@
 import argparse
-import sys
 import warnings
-from pathlib import Path
-from unittest.mock import MagicMock, mock_open, patch
+from unittest.mock import patch
 
 import pytest
 import yaml
@@ -92,7 +90,7 @@ class TestCmdCache:
         # that occur when yaml.dump() interacts with pytest-asyncio's mock patching
         with warnings.catch_warnings():
             warnings.simplefilter("ignore", RuntimeWarning)
-            
+
             manifest_path = tmp_path / "manifest.yaml"
             with open(manifest_path, "w") as f:
                 yaml.dump(sample_manifest_dict, f)
@@ -183,9 +181,8 @@ class TestCmdServe:
 
 class TestMain:
     def test_main_no_command(self, capsys):
-        with patch("sys.argv", ["terraform-registry-stub"]):
-            with pytest.raises(SystemExit):
-                main()
+        with patch("sys.argv", ["terraform-registry-stub"]), pytest.raises(SystemExit):
+            main()
 
     def test_main_help(self):
         with patch("sys.argv", ["terraform-registry-stub", "--help"]):
@@ -236,30 +233,46 @@ class TestMain:
 
         output_dir = tmp_path / "output"
 
-        with patch("sys.argv", [
-            "terraform-registry-stub",
-            "cache",
-            "-m", str(manifest_path),
-            "-o", str(output_dir),
-            "--no-packages",
-            "--parallel", "8",
-            "--force",
-        ]):
-            with patch("terraform_registry_stub.cli.cache_providers"):
-                with patch("asyncio.run"):
-                    main()
+        with (
+            patch(
+                "sys.argv",
+                [
+                    "terraform-registry-stub",
+                    "cache",
+                    "-m",
+                    str(manifest_path),
+                    "-o",
+                    str(output_dir),
+                    "--no-packages",
+                    "--parallel",
+                    "8",
+                    "--force",
+                ],
+            ),
+            patch("terraform_registry_stub.cli.cache_providers"),
+            patch("asyncio.run"),
+        ):
+            main()
 
     def test_main_serve_with_options(self, tmp_path):
         cache_dir = tmp_path / "cache"
         cache_dir.mkdir()
 
-        with patch("sys.argv", [
-            "terraform-registry-stub",
-            "serve",
-            "-c", str(cache_dir),
-            "--host", "0.0.0.0",
-            "-p", "9090",
-            "--reload",
-        ]):
-            with patch("terraform_registry_stub.cli.run_server"):
-                main()
+        with (
+            patch(
+                "sys.argv",
+                [
+                    "terraform-registry-stub",
+                    "serve",
+                    "-c",
+                    str(cache_dir),
+                    "--host",
+                    "0.0.0.0",
+                    "-p",
+                    "9090",
+                    "--reload",
+                ],
+            ),
+            patch("terraform_registry_stub.cli.run_server"),
+        ):
+            main()

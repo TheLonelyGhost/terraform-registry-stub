@@ -1,5 +1,3 @@
-import json
-
 import pytest
 from fastapi.testclient import TestClient
 
@@ -94,19 +92,19 @@ class TestDownloadPackageFile:
         type_ = setup_cached_provider["type"]
         version = setup_cached_provider["version"]
 
-        response = client.get(f"/v1/providers/{namespace}/{type_}/{version}/packages/nonexistent.zip")
+        response = client.get(
+            f"/v1/providers/{namespace}/{type_}/{version}/packages/nonexistent.zip"
+        )
         assert response.status_code == 404
 
 
 class TestServerInitialization:
     def test_init_app_sets_cache_directory(self, tmp_cache_dir):
-        from terraform_registry_stub.serve import cache_directory
 
         result = init_app(tmp_cache_dir)
         assert result is app
 
     def test_uninitialized_cache_directory_error(self):
-        from terraform_registry_stub.serve import cache_directory
         import terraform_registry_stub.serve as serve_module
 
         serve_module.cache_directory = None

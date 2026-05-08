@@ -1,6 +1,3 @@
-import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
-
 from terraform_registry_stub.client import AsyncRegistryClient
 
 

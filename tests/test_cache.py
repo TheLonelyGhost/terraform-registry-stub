@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock, patch
 import pytest
 
 from terraform_registry_stub.cache import cache_provider, cache_providers, resolve_platforms
-from terraform_registry_stub.models import CacheOptions, Manifest, Platform, Provider
+from terraform_registry_stub.models import Manifest, Platform, Provider
 
 
 @pytest.mark.asyncio
@@ -36,7 +36,9 @@ class TestCacheProvider:
         assert result["status"] == "no_matches"
         assert result["versions"] == 0
 
-    async def test_cache_provider_success(self, tmp_cache_dir, sample_provider_versions, sample_package_metadata):
+    async def test_cache_provider_success(
+        self, tmp_cache_dir, sample_provider_versions, sample_package_metadata
+    ):
         from rich.progress import Progress
 
         client = AsyncMock()
@@ -65,7 +67,9 @@ class TestCacheProvider:
         assert result["versions"] >= 1
         assert result["packages"] >= 1
 
-    async def test_cache_provider_creates_versions_file(self, tmp_cache_dir, sample_provider_versions, sample_package_metadata):
+    async def test_cache_provider_creates_versions_file(
+        self, tmp_cache_dir, sample_provider_versions, sample_package_metadata
+    ):
         from rich.progress import Progress
 
         client = AsyncMock()
@@ -97,7 +101,9 @@ class TestCacheProvider:
             data = json.load(f)
             assert data["id"] == "hashicorp/aws"
 
-    async def test_cache_provider_creates_package_metadata(self, tmp_cache_dir, sample_provider_versions, sample_package_metadata):
+    async def test_cache_provider_creates_package_metadata(
+        self, tmp_cache_dir, sample_provider_versions, sample_package_metadata
+    ):
         from rich.progress import Progress
 
         client = AsyncMock()
@@ -122,10 +128,14 @@ class TestCacheProvider:
                 progress=progress,
             )
 
-        package_path = tmp_cache_dir / "providers" / "hashicorp" / "aws" / "5.0.0" / "linux_amd64.json"
+        package_path = (
+            tmp_cache_dir / "providers" / "hashicorp" / "aws" / "5.0.0" / "linux_amd64.json"
+        )
         assert package_path.exists()
 
-    async def test_cache_provider_with_download_packages(self, tmp_cache_dir, sample_provider_versions, sample_package_metadata):
+    async def test_cache_provider_with_download_packages(
+        self, tmp_cache_dir, sample_provider_versions, sample_package_metadata
+    ):
         from rich.progress import Progress
 
         client = AsyncMock()
@@ -153,7 +163,9 @@ class TestCacheProvider:
 
         assert client.download_file.call_count >= 1
 
-    async def test_cache_provider_with_verify_signatures(self, tmp_cache_dir, sample_provider_versions, sample_package_metadata):
+    async def test_cache_provider_with_verify_signatures(
+        self, tmp_cache_dir, sample_provider_versions, sample_package_metadata
+    ):
         from rich.progress import Progress
 
         client = AsyncMock()

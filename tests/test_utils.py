@@ -1,5 +1,3 @@
-import pytest
-
 from terraform_registry_stub.utils import (
     ensure_directory,
     get_cache_path,
