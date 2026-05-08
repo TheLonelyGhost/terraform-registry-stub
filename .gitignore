@@ -52,3 +52,4 @@ Thumbs.db
 cache/
 *.cache
 examples/cache/
+uv.lock
